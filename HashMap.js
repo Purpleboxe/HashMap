@@ -84,9 +84,26 @@ class HashMap {
         
         return null;
     }
+
+    has (key) {
+        const index = this.hash(key) % this.buckets.length;
+        const bucket = this.buckets[index];
+
+        if (bucket) {
+            for (let i = 0; i < bucket.length; i++) {
+                if (bucket[i].key === key) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 }
 
 const hash = new HashMap();
 
 hash.set('poopy', 'key');
 console.log(hash.get('poopy'));
+console.log(hash.has('poopy'));
+console.log(hash.has('poop'));
