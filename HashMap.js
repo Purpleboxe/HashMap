@@ -1,6 +1,7 @@
 class HashMap {
     constructor (capacity = 16, loadFactor = 0.75) {
         this.buckets = new Array(capacity);
+        this.capacity = capacity;
         this.loadFactor = loadFactor;
     }
 
@@ -22,7 +23,7 @@ class HashMap {
         }
     
         if (!this.buckets[index]) {
-            this.buckets[index] = []; // Initialize the bucket if it's undefined
+            this.buckets[index] = [];
         }
     
         const bucket = this.buckets[index];
@@ -35,12 +36,12 @@ class HashMap {
     
         bucket.push({ key, value });
     
-        if (this.size() > this.buckets.length * this.loadFactor) {
+        if (this.length() > this.buckets.length * this.loadFactor) {
             this.resize();
         }
     }
 
-    size () {
+    length () {
         let count = 0;
         for (const bucket of this.buckets) {
             if (bucket) {
@@ -99,6 +100,37 @@ class HashMap {
 
         return false;
     }
+
+    remove (key) {
+        const index = this.hash(key) % this.buckets.length;
+        const bucket = this.buckets[index];
+    
+        if (bucket) {
+            for (let i = 0; i < bucket.length; i++) {
+                if (bucket[i].key === key) {
+                    bucket.splice(i, 1);
+                    return;
+                }
+            }
+        }
+    }
+
+    clear () {
+        this.buckets = new Array(this.capacity);
+    }
+
+    keys () {
+        const result = [];
+        for (const bucket of this.buckets) {
+            if (bucket) {
+                for (const item of bucket) {
+                    result.push(item.key);
+                }
+            }
+        }
+
+        return result;
+    }
 }
 
 const hash = new HashMap();
@@ -107,3 +139,12 @@ hash.set('poopy', 'key');
 console.log(hash.get('poopy'));
 console.log(hash.has('poopy'));
 console.log(hash.has('poop'));
+hash.remove('poopy');
+console.log(hash.has('poopy'));
+hash.set('hello', 'hi');
+console.log(hash.length());
+hash.clear();
+console.log(hash.length());
+hash.set('sophia', 'name')
+hash.set('john', 'name');
+console.log(hash.keys());
