@@ -131,6 +131,19 @@ class HashMap {
 
         return result;
     }
+
+    values () {
+        const result = [];
+        for (const bucket of this.buckets) {
+            if (bucket) {
+                for (const item of bucket) {
+                    result.push(item.value);
+                }
+            }
+        }
+
+        return result;
+    }
 }
 
 const hash = new HashMap();
@@ -146,5 +159,6 @@ console.log(hash.length());
 hash.clear();
 console.log(hash.length());
 hash.set('sophia', 'name')
-hash.set('john', 'name');
+hash.set('john', 'name2');
 console.log(hash.keys());
+console.log(hash.values());
