@@ -13,24 +13,28 @@ class HashMap {
         return hashCode;
     }
 
-    set (key, value) {
+    set(key, value) {
         const index = this.hash(key) % this.buckets.length;
-
+    
         // Index has to be in buckets length
-        if (index < 0 || index >= buckets.length) {
+        if (index < 0 || index >= this.buckets.length) {
             throw new Error("Trying to access index out of bound");
         }
-
+    
+        if (!this.buckets[index]) {
+            this.buckets[index] = []; // Initialize the bucket if it's undefined
+        }
+    
         const bucket = this.buckets[index];
-        for (let i = 0; i < this.buckets.length; i++) {
+        for (let i = 0; i < bucket.length; i++) {
             if (bucket[i].key === key) {
                 bucket[i].value = value;
                 return;
             }
         }
-
-        bucket.push({key, value});
-
+    
+        bucket.push({ key, value });
+    
         if (this.size() > this.buckets.length * this.loadFactor) {
             this.resize();
         }
@@ -51,14 +55,38 @@ class HashMap {
         const newCapacity = this.buckets.length * 2;
         const newBuckets = new Array(newCapacity);
 
-        for (const bucket of this.buckets) {
-            const newIndex = this.hash(bucket.key) % newCapacity;
+        for (const item of this.buckets) {
+            if (item) {
+                const newIndex = this.hash(item.key) % newCapacity;
 
-            newBuckets[newIndex].push(bucket);
+                if (!newBuckets[newIndex]) {
+                    newBuckets[newIndex] = [];
+                }
+    
+                newBuckets[newIndex].push(item);
+            }
         }
 
         this.buckets = newBuckets;
     }
+
+    get (key) {
+        const index = this.hash(key) % this.buckets.length;
+        const bucket = this.buckets[index];
+
+        if (bucket) {
+            for (let i = 0; i < bucket.length; i++) {
+                if (bucket[i].key === key) {
+                    return bucket[i].value;
+                }
+            }
+        }
+        
+        return null;
+    }
 }
 
 const hash = new HashMap();
+
+hash.set('poopy', 'key');
+console.log(hash.get('poopy'));
