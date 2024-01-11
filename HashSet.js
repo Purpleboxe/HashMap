@@ -100,19 +100,3 @@ class HashSet {
         return result;
     }
 }
-
-// Example usage
-const hashSet = new HashSet();
-
-hashSet.add('poopy');
-console.log(hashSet.has('poopy')); // true
-console.log(hashSet.has('poop')); // false
-hashSet.remove('poopy');
-console.log(hashSet.has('poopy')); // false
-hashSet.add('hello');
-console.log(hashSet.length()); // 1
-hashSet.clear();
-console.log(hashSet.length()); // 0
-hashSet.add('sophia');
-hashSet.add('john');
-console.log(hashSet.keys()); // ['sophia', 'john']
