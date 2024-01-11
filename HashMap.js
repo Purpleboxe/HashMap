@@ -158,21 +158,3 @@ class HashMap {
         return result;      
     }
 }
-
-const hash = new HashMap();
-
-hash.set('poopy', 'key');
-console.log(hash.get('poopy')); // key
-console.log(hash.has('poopy')); // true
-console.log(hash.has('poop')); // false
-hash.remove('poopy');
-console.log(hash.has('poopy')); // false
-hash.set('hello', 'hi');
-console.log(hash.length()); // 1
-hash.clear();
-console.log(hash.length()); // 0
-hash.set('sophia', 'name')
-hash.set('john', 'name2');
-console.log(hash.keys()); // [ 'sophia', 'john' ]
-console.log(hash.values()); // [ 'name', 'name2' ]
-console.log(hash.entries()); // [ [ 'sophia', 'name' ], [ 'john', 'name2' ] ]
